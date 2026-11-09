@@ -81,11 +81,19 @@ This project creates an automated system that does that entire bank process in l
 
 ### Option A: Run via Docker Compose (Recommended - Zero Setup)
 ```bash
-# Clone the repository and navigate into the project directory
+# 1. Clone the repository and navigate into the directory
+git clone https://github.com/999Cosmic/loan-approval-ai.git
 cd loan-approval-ai
 
-# Start the container
+# 2. (Optional) Set your Gemini API key in a .env file for live LLM generation:
+# echo "GEMINI_API_KEY=your-key-here" > .env
+# Note: If omitted, built-in fallback templates engage automatically with zero errors!
+
+# 3. Start the container
 docker compose up --build
+
+# 4. Stop the container when done (Press Ctrl + C, or in another terminal run:)
+docker compose down
 ```
 The API and interactive Swagger documentation will be immediately accessible at:
 * **Interactive Documentation (Swagger UI):** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
@@ -97,23 +105,24 @@ The API and interactive Swagger documentation will be immediately accessible at:
 ### Option B: Run Locally with Python
 
 ```bash
-# 1. Navigate to the project directory
+# 1. Clone and navigate into the project directory
+git clone https://github.com/999Cosmic/loan-approval-ai.git
 cd loan-approval-ai
 
 # 2. Create and activate a virtual environment
 python -m venv venv
-# On Windows:
-venv\Scripts\activate
+# On Windows PowerShell:
+.\venv\Scripts\Activate.ps1
 # On macOS/Linux:
 source venv/bin/activate
 
 # 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Set your Gemini API key (Optional; fallback templates engage automatically if omitted)
+# 4. (Optional) Set your Gemini API key:
 export GEMINI_API_KEY="your-api-key-here"  # On Windows PowerShell: $env:GEMINI_API_KEY="your-key"
 
-# 5. Start the FastAPI server
+# 5. Start the FastAPI server (Press Ctrl + C to stop)
 uvicorn app:app --reload
 ```
 
