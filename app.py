@@ -77,10 +77,8 @@ init_db()
 # Configure a 15-second timeout on all LLM network requests to prevent API hanging.
 CLIENT_HTTP_OPTIONS = types.HttpOptions(timeout=15000)
 
-try:
-    client = genai.Client(http_options=CLIENT_HTTP_OPTIONS)
-except Exception:
-    client = None
+# Client instance initialized lazily via get_genai_client()
+client = None
 
 
 def get_genai_client() -> genai.Client | None:
