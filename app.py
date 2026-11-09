@@ -77,6 +77,14 @@ init_db()
 # Configure a 15-second timeout on all LLM network requests to prevent API hanging.
 CLIENT_HTTP_OPTIONS = types.HttpOptions(timeout=15000)
 
+# Candidate models ordered by capability and availability
+CANDIDATE_MODELS = [
+    "gemini-3.8-flash",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+]
+
 # Client instance initialized lazily via get_genai_client()
 client = None
 
@@ -268,9 +276,7 @@ def draft_notification_email(
         )
 
     # Multi-model fallback sequence to handle upstream 503 capacity spikes
-    candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
-
-    for model_name in candidate_models:
+    for model_name in CANDIDATE_MODELS:
         try:
             logger.info(f"Attempting email generation with model: {model_name}")
             response = genai_client.models.generate_content(
@@ -380,8 +386,7 @@ Return strictly a valid JSON object with these two keys:
 }}
 """
 
-    candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
-    for model_name in candidate_models:
+    for model_name in CANDIDATE_MODELS:
         try:
             logger.info(f"Attempting compliance audit with model: {model_name}")
             response = genai_client.models.generate_content(
@@ -513,8 +518,7 @@ Return strictly a valid JSON object matching this schema:
 }}
 """
 
-    candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
-    for model_name in candidate_models:
+    for model_name in CANDIDATE_MODELS:
         try:
             logger.info(f"Attempting NBO generation with model: {model_name}")
             response = genai_client.models.generate_content(
