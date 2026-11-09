@@ -1,0 +1,20 @@
+# ==============================================================================
+# Docker Compose - Local Orchestration & Volume Persistence
+# ==============================================================================
+
+services:
+  loan-approval-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: loan-approval-api
+    ports:
+      # Map host port 8000 to container port 8000
+      - "8000:8000"
+    environment:
+      # Forward GEMINI_API_KEY from host environment if available
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    volumes:
+      # Mount SQLite audit ledger to persist records on host across container rebuilds
+      - ./loans.db:/app/loans.db
+    restart: unless-stopped
